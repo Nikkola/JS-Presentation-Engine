@@ -13,6 +13,4 @@ require.config({
   }
 });
  
-require(['backbone'], function(Backbone) {
-	console.log( Backbone );
-});
+
