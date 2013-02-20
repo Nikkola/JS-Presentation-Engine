@@ -1,9 +1,9 @@
 require.config({
   shim: {
-	'backbone' : {
-		deps: ['underscore', 'jquery'],
-		exports: 'Backbone'
-	}
+    'backbone' : {
+        deps: ['underscore', 'jquery'],
+        exports: 'Backbone'
+    }
   },
 
   paths: {
@@ -15,5 +15,5 @@ require.config({
  
 
 require(['views/app'], function(App) {
-	new App();
+    new App();
 });
