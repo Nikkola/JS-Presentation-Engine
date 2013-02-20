@@ -8,12 +8,16 @@ require.config({
 
   paths: {
     jquery: 'vendor/jquery.min',
-    underscore: 'vendor/underscore-min',
+    'underscore' : 'vendor/underscore-min',
     backbone: 'vendor/backbone-min'
   }
 });
  
 
-require(['views/app'], function(App) {
-    new App();
+require(['views/app'], function(AppView) {
+    window.App = {
+        Vent: _.extend({}, Backbone.Events)
+    };
+
+    new AppView();
 });
