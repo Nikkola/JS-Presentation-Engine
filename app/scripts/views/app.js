@@ -3,13 +3,8 @@ define([
     'collections/slides', 
     'views/slides',
     'router'
-    ], 
-    function(
-        Backbone, 
-        SlidesCollections,
-        SlidesView,
-        MainRouter
-    ) {
+
+], function( Backbone, SlidesCollections, SlidesView, MainRouter) {
 
         var AppView = Backbone.View.extend({
             el: 'body',
@@ -19,12 +14,26 @@ define([
                     {title: 'My first Slide'},
                     {title: 'My Second Slide'}
                 ];
+
                 new SlidesView({
-                    collection: new SlidesCollections(testCollection)
+                    collection: new SlidesCollections( testCollection )
                 });
 
                 App.router = new MainRouter();
                 Backbone.history.start();
+            },
+
+            events: {
+                'keyup' : 'keyUp'
+            },
+
+            keyUp: function(e) {
+                if ( e.keyCode === 37  || e.keyCode === 39 ) {
+                    App.Vent.trigger('changeSlide', {
+                        direction: e.keyCode == 39 ? 'next' : 'prev'
+                    });
+                }
+
             }
         });
 
