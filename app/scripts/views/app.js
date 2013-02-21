@@ -10,13 +10,8 @@ define([
             el: 'body',
 
             initialize: function() {
-                var testCollection = [
-                    {title: 'My first Slide'},
-                    {title: 'My Second Slide'}
-                ];
-
                 new SlidesView({
-                    collection: new SlidesCollections( testCollection )
+                    collection: new SlidesCollections( window.slides )
                 });
 
                 App.router = new MainRouter();
