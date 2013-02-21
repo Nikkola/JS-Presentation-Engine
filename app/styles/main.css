@@ -63,3 +63,14 @@ h1.normal {
   border: 1px solid #666666;
   padding: 2px;
 }
+
+.bullets ul {
+  padding-left: 0;
+  color: #299a0b;
+}
+
+.bullets li {
+  text-align: left;
+  line-height: 1.6em;
+  font-family: "Press Start 2P" cursive;
+}
