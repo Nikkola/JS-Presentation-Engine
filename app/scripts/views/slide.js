@@ -5,6 +5,8 @@ define(['backbone'], function(Backbone) {
 		render: function() {
 			if ( this.model.get('image') ) {
 				this.renderImage();
+			} else if ( this.model.get('snippet') ) {
+				this.renderSnippet();
 			} else if ( this.model.get('quote') ) {
 				this.renderQuote();
 			} else if ( this.model.get('bullets') ) {
@@ -16,6 +18,23 @@ define(['backbone'], function(Backbone) {
 			return this;
 		},
 
+		renderSnippet: function() {
+			var that = this,
+				snippet = this.model.get('snippet');
+
+			this.$el.addClass('snippet');
+
+			if ( this.model.get('title') ) {
+				this.renderHeading();
+			}
+
+			$.get(snippet, function(snippet) {
+				that.$el
+					.append('<pre class="prettyprint">' + _.escape(snippet) + '</pre>');
+				prettyPrint();	
+			});
+
+		},
 
 		renderQuote: function() {
 			this.$el

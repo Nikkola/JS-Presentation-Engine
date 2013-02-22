@@ -2,8 +2,8 @@ window.slides = [
 	{ title: 'Моя презентация' },
 
 	{
-		title: 'CSS код',
-		snippet: 'snippets/ex1.css'
+		title: 'Self Executing function',
+		snippet: 'snippets/snippet.js'
 	},
 
 	{ 
