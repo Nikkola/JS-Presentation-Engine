@@ -2,6 +2,13 @@ window.slides = [
 	{ title: 'Моя презентация' },
 
 	{
+		snippet: {
+			'CSS' : 'snippets/snippet.css',
+			'JavaScript' : 'snippets/snippet.js'
+		}
+	},
+
+	{
 		title: 'Self Executing function',
 		snippet: 'snippets/snippet.js'
 	},

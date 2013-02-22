@@ -28,13 +28,38 @@ define(['backbone'], function(Backbone) {
 				this.renderHeading();
 			}
 
-			$.get(snippet, function(snippet) {
+
+			if ( $.isPlainObject(snippet) ) {
+				return _.each(snippet, function(snippetPath, heading) {
+					that.setSnippet(snippetPath, heading);
+				});
+			}
+
+			that.setSnippet(snippet);
+
+		},
+
+		setSnippet: function(snippetPath, heading) {
+			var that = this;
+
+			$.get(snippetPath, function(snippet) {
+				//если есть заголовок сначала рендим его
+				if ( heading ) {
+					that.model.set('title', heading);
+					that.renderHeading();
+				}
+
 				that.$el
 					.append('<pre class="prettyprint">' + _.escape(snippet) + '</pre>');
 				prettyPrint();	
 			});
-
 		},
+
+		renderHeading: function() {
+			this.$el.append(
+				'<h1 class=' + this.model.get('size') + '>' + this.model.get('title') + '</h1>'
+			);				
+		},		
 
 		renderQuote: function() {
 			this.$el
@@ -51,12 +76,6 @@ define(['backbone'], function(Backbone) {
 						'</figcaption>',
 					'</figure>'
 				].join(''));	
-		},
-
-		renderHeading: function() {
-			this.$el.append(
-				'<h1 class=' + this.model.get('size') + '>' + this.model.get('title') + '</h1>'
-			);				
 		},
 
 		renderImage: function() {
