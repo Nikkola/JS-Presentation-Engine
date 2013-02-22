@@ -12,6 +12,7 @@ body, html {
 body {
   text-align: center;
   color: white;
+  font-family: "Press Start 2P" italic;
   background: -webkit-gradient(radial, 50%, 0, 50%, 100, color-stop(0%, #ffffff), color-stop(100%, #f6f6f6));
   background: -webkit-radial-gradient(center, circle closest-corner, #ffffff 0%, #f6f6f6 100%);
   background: -moz-radial-gradient(center, circle closest-corner, #ffffff 0%, #f6f6f6 100%);
@@ -42,7 +43,6 @@ h1, .h1 {
   line-height: 1.3em;
   letter-spacing: -1px;
   margin-bottom: 0.5em;
-  font-family: "Press Start 2P" cursive;
 }
 
 h1.x-large {
@@ -72,5 +72,34 @@ h1.normal {
 .bullets li {
   text-align: left;
   line-height: 1.6em;
-  font-family: "Press Start 2P" cursive;
+}
+
+.quote blockquote {
+  font-size: 40px;
+  display: inline-block;
+  color: #299a0b;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.quote blockquote::after,
+.quote blockquote::before {
+  content: '"';
+  font-weight: bold;
+  color: #666666;
+}
+
+.quote blockquote::before {
+  margin-left: -10px;
+}
+
+.quote cite {
+  font-size: 30px;
+  float: right;
+  font-weight: bold;
+  color: #666666;
+}
+
+.quote cite::before {
+  content: "- ";
 }
