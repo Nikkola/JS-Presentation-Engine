@@ -1,4 +1,7 @@
-define(['backbone', 'views/slide'], function(Backbone, SlideView) {
+define([
+	'backbone', 
+	'views/slide'
+	], function(Backbone,  SlideView) {
 
 	var SlidesView = Backbone.View.extend({
 		initialize: function() {
@@ -37,7 +40,7 @@ define(['backbone', 'views/slide'], function(Backbone, SlideView) {
 				return this.currentSlideIndex = ~~opts.slideIndex;
 			}
 			
-			//в другом случае просто пролестай на один вперед или назад
+			//в другом случае просто пролистай на один вперед или назад
 			this.currentSlideIndex += opts.direction === 'next' ? 1 : -1;
 
 			if ( this.currentSlideIndex > this.numSlides ) {

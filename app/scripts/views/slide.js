@@ -1,6 +1,12 @@
-define(['backbone' , 'helpers'], function(Backbone, Helpers) {
+define([
+	'backbone' , 
+	'helpers'
+], function(Backbone, Helpers) {
 	var SlideView = Backbone.View.extend({
 		className: 'slide',
+
+		initialize:function() {
+		},
 
 		render: function() {
 			var contentType = this.getContentType();
@@ -21,6 +27,8 @@ define(['backbone' , 'helpers'], function(Backbone, Helpers) {
 				return 'quote';
 			} else if ( this.model.get('bullets') ) {
 				return 'bullets';
+			} else if ( this.model.get('link') ) {
+				return 'link';
 			} else {
 				return 'heading';
 			}	
@@ -36,54 +44,68 @@ define(['backbone' , 'helpers'], function(Backbone, Helpers) {
 				this.renderHeading();
 			}
 
-
-			if ( $.isPlainObject(snippet) ) {
-				return _.each(snippet, function(snippetPath, heading) {
-					that.setSnippet(snippetPath, heading);
+			//если массив снипетов
+			if ( Object.prototype.toString.call( snippet ) === '[object Array]' ) {
+				return _.each(snippet, function(item) {
+					that.setSnippet(item);
 				});
+			} else { //если один снипет
+				this.setSnippet(snippet);
 			}
 
-			that.setSnippet(snippet);
-
 		},
 
-		setSnippet: function(snippetPath, heading) {
+		setSnippet: function(snippet) {
 			var that = this;
 
-			$.get(snippetPath, function(snippet) {
-				//если есть заголовок сначала рендим его
-				if ( heading ) {
-					that.model.set('title', heading);
+			$.ajax({
+				type: 'GET',
+				url: snippet.url,
+				success: function(snippetData) {
+					that.model.set('title', snippet.heading);
 					that.renderHeading();
-				}
 
-				that.$el
-					.append('<pre class="prettyprint">' + _.escape(snippet) + '</pre>');
-				prettyPrint();	
+					var snippetsHtml = Helpers.template('snippets-tpl');
+					that.$el.append( snippetsHtml( {snippet: snippetData } ) );
+
+					prettyPrint();					
+				}
 			});
+
 		},
+
+		renderLink: function() {
+			var that = this,
+				link = this.model.get('link');
+
+			this.$el.addClass('link');
+
+			if ( this.model.get('title') ) {
+				this.renderHeading();
+			}
+
+			//если массив ссылок
+			if ( Object.prototype.toString.call( link ) === '[object Array]' ) {
+				var linksHtml = Helpers.template('links-tpl');
+				this.$el.append( linksHtml( this.model.toJSON() ) );
+			} else { //если одна ссылка
+				var linkHtml = Helpers.template('link-tpl');
+				this.$el.append( linkHtml( this.model.toJSON() ) );
+			}
+
+		},	
 
 		renderHeading: function() {
 			this.$el.append(
 				'<h1 class=' + this.model.get('size') + '>' + this.model.get('title') + '</h1>'
 			);				
-		},		
+		},	
 
 		renderQuote: function() {
-			this.$el
-				.addClass('quote')
-				.append([,
-					'<figure>',
-						'<blockquote>',
-							this.model.get('quote'),
-						'</blockquote>',
-						'<figcaption>',
-							'<cite>',
-								this.model.get('cite'),
-							'</cite>',
-						'</figcaption>',
-					'</figure>'
-				].join(''));	
+			this.$el.addClass('quote');
+
+			var linksHtml = Helpers.template('quote-tpl');
+			this.$el.append( linksHtml( this.model.toJSON() ) );	
 		},
 
 		renderImage: function() {
@@ -93,20 +115,14 @@ define(['backbone' , 'helpers'], function(Backbone, Helpers) {
 		},
 
 		renderBullets: function() {
-			var el = this.$el;
-			
-			el.addClass('bullets');
+			this.$el.addClass('bullets');
 
 			if (this.model.get('title') ) {
-				el.append('<h1>' + this.model.get('title') + '</h1>');
+				this.renderHeading();
 			}
 
-			el
-				.append([
-					'<ul>',
-						'<li>' + this.model.get('bullets').join('</li><li>'),
-					'</ul>'	
-				].join(''));
+			var linksHtml = Helpers.template('bullets-tpl');
+			this.$el.append( linksHtml( this.model.toJSON() ) );
 		}
 	});
 

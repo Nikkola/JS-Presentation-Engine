@@ -1,0 +1,1 @@
+var text = $('.word').text();
