@@ -24,6 +24,49 @@ h1, h2, h3, h4, h5 {
   margin-top: 0;
 }
 
+.hint-trigger {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 40px;
+}
+
+.hint {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+  display: none;
+}
+
+.hint p {
+  text-align: left;
+  font-size: 47%;
+  color: black;
+}
+
+.hint p span {
+  color: red;
+}
+
+.hint img {
+  width: 80px;
+}
+
+.presentations {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.presentation {
+  border: 10px solid #ffd400;
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  padding: 50px 200px;
+  font-size: 50px;
+}
+
 .slides {
   display: table;
   height: 100%;

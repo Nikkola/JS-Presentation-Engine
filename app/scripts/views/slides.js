@@ -5,17 +5,24 @@ define([
 
 	var SlidesView = Backbone.View.extend({
 		initialize: function() {
+			this.presentationIndex = this.options.id;
 			this.currentSlideIndex = 1;
 			this.transitionSpeed = 400;
 			this.numSlides = this.collection.length;
 
 			this.renderAll();
 
-			App.Vent.on('init', this.hideAllButFirst, this);
+			App.Vent.on('initSlide', this.hideAllButFirst, this);
 			App.Vent.on('changeSlide', this.changeSlide, this);
 		},
 
-		el: $('.slides'),
+		//метод вызываемый при закрытии вида - отключает все pub/sub
+	 	onClose: function(){
+			App.Vent.off('initSlide', this.hideAllButFirst, this);
+	    	App.Vent.off('changeSlide', this.changeSlide, this);
+	  	},
+
+		className: 'slides',
 
 		hideAllButFirst: function() {
 			this.$el.children(':nth-child(n+2)').hide();
@@ -27,10 +34,11 @@ define([
 				slides = this.$el.children();
 
 			this.setCurrentSlideIndex(opts);	
+
 			newSlide = this.getNextSlide(slides);
 			this.animateToNewSlide(slides, newSlide, opts.direction);
 
-			App.router.navigate('/slides/' + this.currentSlideIndex);
+			App.router.navigate('presentation/' + this.presentationIndex + '/slides/' + this.currentSlideIndex);
 		},
 
 		setCurrentSlideIndex: function(opts) {
